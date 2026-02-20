@@ -1,0 +1,5 @@
+-- ADICIONA COLUNAS DE CUSTOMIZAÇÃO VISUAL NO PERFIL
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS brand_color TEXT DEFAULT '#f97316'; -- Default Orange
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS instagram_handle TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS font_style TEXT DEFAULT 'modern';
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS compact_layout BOOLEAN DEFAULT false;
