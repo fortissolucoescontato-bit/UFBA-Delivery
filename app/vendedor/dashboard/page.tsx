@@ -10,6 +10,7 @@ import { UserMenu } from "@/components/UserMenu"
 import { deleteProduct } from "../actions"
 import { StoreStatusCard } from "./StoreStatusCard"
 import { StorefrontActionsCard } from "./StorefrontActionsCard"
+import { DeleteProductButton } from "@/components/DeleteProductButton"
 
 export default async function VendorDashboard() {
     const supabase = await createClient()
@@ -93,9 +94,7 @@ export default async function VendorDashboard() {
                                         </Button>
                                         <form action={deleteProduct}>
                                             <input type="hidden" name="productId" value={product.id} />
-                                            <Button size="icon" variant="ghost" className="text-destructive hover:text-destructive/90 hover:bg-destructive/10" type="submit">
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
+                                            <DeleteProductButton />
                                         </form>
                                     </div>
                                 </div>

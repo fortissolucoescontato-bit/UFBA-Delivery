@@ -10,6 +10,7 @@ import { AppLogo } from '@/components/AppLogo'
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { CheckCircle2, AlertCircle } from "lucide-react"
+import { SubmitButton } from '@/components/SubmitButton'
 
 export default async function Signup(props: {
     searchParams: Promise<{ message?: string, type?: string }>
@@ -71,82 +72,89 @@ export default async function Signup(props: {
                 </CardHeader>
                 <CardContent>
 
-                    {searchParams?.message && searchParams?.type === 'success' && (
-                        <Alert className="mb-6 border-green-500 bg-green-50 text-green-900">
-                            <CheckCircle2 className="h-4 w-4 stroke-green-600" />
-                            <AlertTitle className="text-green-800 font-semibold">Sucesso!</AlertTitle>
-                            <AlertDescription>
-                                {searchParams.message}
-                            </AlertDescription>
-                        </Alert>
-                    )}
-
-                    {searchParams?.message && searchParams?.type !== 'success' && (
-                        <Alert variant="destructive" className="mb-6">
-                            <AlertCircle className="h-4 w-4" />
-                            <AlertTitle>Erro</AlertTitle>
-                            <AlertDescription>
-                                {searchParams.message}
-                            </AlertDescription>
-                        </Alert>
-                    )}
-
-                    <form action={signUp} className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="fullName">Nome Completo</Label>
-                            <Input
-                                id="fullName"
-                                name="fullName"
-                                placeholder="Seu Nome"
-                                required
-                            />
+                    {searchParams?.type === 'success' ? (
+                        <div className="flex flex-col items-center justify-center py-6 text-center space-y-4">
+                            <div className="h-20 w-20 bg-green-100 rounded-full flex items-center justify-center mb-2">
+                                <CheckCircle2 className="h-10 w-10 text-green-600" />
+                            </div>
+                            <h3 className="text-xl font-bold text-green-800">Verifique seu Email</h3>
+                            <p className="text-muted-foreground">
+                                Enviamos um link de confirmação para o seu e-mail. Por favor, clique no link para ativar sua conta.
+                            </p>
+                            <Button variant="outline" className="w-full mt-4" asChild>
+                                <Link href="/auth/login">Ir para o Login</Link>
+                            </Button>
                         </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                name="email"
-                                type="email"
-                                placeholder="nome@exemplo.com"
-                                required
-                            />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Senha</Label>
-                            <Input id="password" name="password" type="password" required />
-                        </div>
+                    ) : (
+                        <>
+                            {searchParams?.message && searchParams?.type !== 'success' && (
+                                <Alert variant="destructive" className="mb-6">
+                                    <AlertCircle className="h-4 w-4" />
+                                    <AlertTitle>Erro</AlertTitle>
+                                    <AlertDescription>
+                                        {searchParams.message}
+                                    </AlertDescription>
+                                </Alert>
+                            )}
 
-                        <div className="grid gap-2 pt-2">
-                            <Label>Eu quero...</Label>
-                            <RadioGroup defaultValue="buyer" name="role" className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <RadioGroupItem value="buyer" id="buyer" className="peer sr-only" />
-                                    <Label
-                                        htmlFor="buyer"
-                                        className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                                    >
-                                        <span className="text-xl mb-1">🍔</span>
-                                        Comprar
-                                    </Label>
+                            <form action={signUp} className="grid gap-4">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="fullName">Nome Completo</Label>
+                                    <Input
+                                        id="fullName"
+                                        name="fullName"
+                                        placeholder="Seu Nome"
+                                        required
+                                    />
                                 </div>
-                                <div>
-                                    <RadioGroupItem value="seller" id="seller" className="peer sr-only" />
-                                    <Label
-                                        htmlFor="seller"
-                                        className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                                    >
-                                        <span className="text-xl mb-1">💰</span>
-                                        Vender
-                                    </Label>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="email">Email</Label>
+                                    <Input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        placeholder="nome@exemplo.com"
+                                        required
+                                    />
                                 </div>
-                            </RadioGroup>
-                        </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="password">Senha</Label>
+                                    <Input id="password" name="password" type="password" required />
+                                </div>
 
-                        <Button type="submit" className="w-full mt-2">
-                            Cadastrar
-                        </Button>
+                                <div className="grid gap-2 pt-2">
+                                    <Label>Eu quero...</Label>
+                                    <RadioGroup defaultValue="buyer" name="role" className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <RadioGroupItem value="buyer" id="buyer" className="peer sr-only" />
+                                            <Label
+                                                htmlFor="buyer"
+                                                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                                            >
+                                                <span className="text-xl mb-1">🍔</span>
+                                                Comprar
+                                            </Label>
+                                        </div>
+                                        <div>
+                                            <RadioGroupItem value="seller" id="seller" className="peer sr-only" />
+                                            <Label
+                                                htmlFor="seller"
+                                                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                                            >
+                                                <span className="text-xl mb-1">💰</span>
+                                                Vender
+                                            </Label>
+                                        </div>
+                                    </RadioGroup>
+                                </div>
 
-                    </form>
+                                <SubmitButton className="w-full mt-2">
+                                    Cadastrar
+                                </SubmitButton>
+
+                            </form>
+                        </>
+                    )}
                 </CardContent>
                 <CardFooter className="flex flex-col gap-4 text-center text-sm text-muted-foreground">
                     <div className='w-full'>

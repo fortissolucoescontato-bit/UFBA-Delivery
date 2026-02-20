@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { User, LogOut, Store, ShoppingBag, MessageSquare } from "lucide-react"
+import { User, LogOut, Store, ShoppingBag, MessageSquare, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { createClient } from "@/utils/supabase/client"
 import { useRouter } from "next/navigation"
@@ -20,6 +20,7 @@ export function UserMenu() {
     const [user, setUser] = useState<any>(null)
     const [role, setRole] = useState<string | null>(null)
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+    const [isLoggingOut, setIsLoggingOut] = useState(false)
     const router = useRouter()
     const supabase = createClient()
 
@@ -42,11 +43,13 @@ export function UserMenu() {
     }, [supabase])
 
     const handleSignOut = async () => {
+        setIsLoggingOut(true)
         await supabase.auth.signOut()
         setUser(null)
         setRole(null)
         router.refresh()
         router.push('/')
+        setIsLoggingOut(false)
     }
 
     if (!user) {
@@ -111,9 +114,17 @@ export function UserMenu() {
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator className="bg-border/50 my-2" />
-                <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive focus:bg-destructive/10 cursor-pointer rounded-xl transition-colors">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span className="font-medium">Sair</span>
+                <DropdownMenuItem
+                    onClick={handleSignOut}
+                    disabled={isLoggingOut}
+                    className="text-destructive focus:text-destructive focus:bg-destructive/10 cursor-pointer rounded-xl transition-colors"
+                >
+                    {isLoggingOut ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                        <LogOut className="mr-2 h-4 w-4" />
+                    )}
+                    <span className="font-medium">{isLoggingOut ? "Saindo..." : "Sair"}</span>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
