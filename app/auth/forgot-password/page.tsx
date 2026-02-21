@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { headers } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { getBaseUrl } from '@/utils/url'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -26,10 +27,10 @@ export default async function ForgotPassword(props: {
 
         const email = formData.get('email') as string
         const supabase = await createClient()
-        const origin = (await headers()).get('origin')
+        const baseUrl = getBaseUrl()
 
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${origin}/auth/callback?next=/auth/reset-password`,
+            redirectTo: `${baseUrl}/auth/callback?next=/auth/reset-password`,
         })
 
         if (error) {

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { headers } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { getBaseUrl } from '@/utils/url'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card'
@@ -35,13 +36,13 @@ export default async function Signup(props: {
         const safeRole = role === 'seller' ? 'seller' : 'buyer';
 
         const supabase = await createClient()
-        const origin = (await headers()).get('origin')
+        const baseUrl = getBaseUrl()
 
         const { error } = await supabase.auth.signUp({
             email,
             password,
             options: {
-                emailRedirectTo: `${origin}/auth/callback`,
+                emailRedirectTo: `${baseUrl}/auth/callback`,
                 data: {
                     full_name: fullName,
                     role: safeRole, // This will be used by the SQL trigger
