@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/server"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import { productSchema, profileSchema } from "./schemas"
 
 export async function deleteProduct(formData: FormData) {
     const productId = formData.get('productId') as string
@@ -10,6 +11,7 @@ export async function deleteProduct(formData: FormData) {
     if (!productId) return
 
     const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
     if (!user) return redirect('/auth/login')
 
     // Hardening: Verify if user is actually a seller
@@ -58,13 +60,37 @@ export async function updateProfile(formData: FormData) {
     const compactLayout = formData.get('compactLayout') === 'true'
     const fontStyle = formData.get('fontStyle') as string
 
-    // Basic validation
-    if (!whatsapp || !fullName) return redirect('/vendedor/perfil?error=missing_fields')
-
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) return redirect('/auth/login')
+
+    // Validate with Zod
+    const validated = profileSchema.safeParse({
+        fullName,
+        whatsapp,
+        location,
+        description,
+        brandColor,
+        instagram,
+        fontStyle,
+        compactLayout
+    })
+
+    if (!validated.success) {
+        const message = validated.error.errors[0].message
+        return redirect(`/vendedor/perfil?error=validation&message=${encodeURIComponent(message)}`)
+    }
+
+    const { data: profileCheck } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single()
+
+    if (profileCheck?.role !== 'seller') {
+        throw new Error('Acesso negado: Apenas vendedores podem atualizar o perfil de loja.')
+    }
 
     const updateData: any = {
         whatsapp,
@@ -167,8 +193,11 @@ export async function editProduct(formData: FormData) {
     const category = formData.get('category') as string || 'Outros'
     const image = formData.get('image') as File | null
 
-    if (!productId || !name || !price) {
-        return redirect('/vendedor/dashboard?error=missing_fields')
+    // Validate with Zod
+    const validated = productSchema.safeParse({ name, price, category })
+    if (!validated.success) {
+        const message = validated.error.errors[0].message
+        return redirect(`/vendedor/dashboard?error=validation&message=${encodeURIComponent(message)}`)
     }
 
     const supabase = await createClient()

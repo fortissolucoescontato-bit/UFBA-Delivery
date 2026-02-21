@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from "@/utils/supabase/server"
+import { z } from "zod"
 import { revalidatePath } from "next/cache"
 
 export async function sendMessage(chatId: string, content: string) {
@@ -10,6 +11,30 @@ export async function sendMessage(chatId: string, content: string) {
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) throw new Error("Unauthorized")
+
+    // Hardening: Message validation
+    const messageSchema = z.string().min(1).max(2000)
+    const validated = messageSchema.safeParse(content)
+
+    if (!validated.success) {
+        throw new Error("Mensagem inválida ou muito longa.")
+    }
+
+    const { data: recentMessages } = await supabase
+        .from('messages')
+        .select('created_at')
+        .eq('sender_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single()
+
+    if (recentMessages) {
+        const lastMessageTime = new Date(recentMessages.created_at).getTime()
+        const now = new Date().getTime()
+        if (now - lastMessageTime < 1000) { // 1 second cooldown
+            throw new Error("Aguarde um pouco antes de enviar outra mensagem.")
+        }
+    }
 
     // Insert the message
     const { error } = await supabase
