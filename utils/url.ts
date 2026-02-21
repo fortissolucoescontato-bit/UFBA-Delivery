@@ -3,6 +3,10 @@ export function getBaseUrl() {
         return process.env.NEXT_PUBLIC_SITE_URL
     }
 
+    // Netlify or Vercel environment variables
+    const siteUrl = process.env.URL || process.env.SITE_URL || process.env.VERCEL_URL
+    if (siteUrl) return siteUrl.startsWith('http') ? siteUrl : `https://${siteUrl}`
+
     // Default for this project as requested by the user
     if (process.env.NODE_ENV === 'production') {
         return 'https://ufba-delivery.netlify.app'

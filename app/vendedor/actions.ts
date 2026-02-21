@@ -10,9 +10,18 @@ export async function deleteProduct(formData: FormData) {
     if (!productId) return
 
     const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-
     if (!user) return redirect('/auth/login')
+
+    // Hardening: Verify if user is actually a seller
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single()
+
+    if (profile?.role !== 'seller') {
+        throw new Error('Acesso negado: Apenas vendedores podem excluir produtos.')
+    }
 
     // RLS policies already check if user is owner, but good to be explicit
     const { error } = await supabase
@@ -41,6 +50,11 @@ export async function updateProfile(formData: FormData) {
     const banner = formData.get('banner') as File | null
     const brandColor = formData.get('brandColor') as string
     const instagram = formData.get('instagram') as string
+
+    // Validate hex color (prevent XSS/Injection)
+    const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+    const safeBrandColor = hexRegex.test(brandColor) ? brandColor : '#f97316'
+
     const compactLayout = formData.get('compactLayout') === 'true'
     const fontStyle = formData.get('fontStyle') as string
 
@@ -52,25 +66,13 @@ export async function updateProfile(formData: FormData) {
 
     if (!user) return redirect('/auth/login')
 
-    const updateData: {
-        whatsapp: string;
-        current_location: string;
-        full_name: string;
-        store_description: string;
-        pix_key?: string;
-        avatar_url?: string;
-        store_banner_url?: string;
-        brand_color?: string;
-        instagram_handle?: string;
-        compact_layout?: boolean;
-        font_style?: string;
-    } = {
+    const updateData: any = {
         whatsapp,
         current_location: location,
         full_name: fullName,
         store_description: description,
         ...(pixKey && { pix_key: pixKey }),
-        brand_color: brandColor || '#f97316',
+        brand_color: safeBrandColor,
         instagram_handle: instagram,
         compact_layout: compactLayout,
         font_style: fontStyle || 'modern'
