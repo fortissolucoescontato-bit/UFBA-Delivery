@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { CartProvider } from "@/context/CartContext";
 import { Toaster } from "@/components/ui/sonner";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 
 
 const jakartaSans = Plus_Jakarta_Sans({
@@ -40,6 +41,7 @@ export default function RootLayout({
           <Footer />
           <Toaster />
           <SpeedInsights />
+          <Analytics />
         </CartProvider>
 
       </body>
