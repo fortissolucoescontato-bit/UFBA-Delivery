@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ArrowLeft, Copy, Send, Check } from "lucide-react"
+import { ArrowLeft, Copy, Send, Check, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
@@ -150,8 +150,8 @@ export function ChatInterface({ chatId, currentUser, otherPerson, initialMessage
                             className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}
                         >
                             <div className={`max-w-[80%] rounded-2xl p-3 shadow-sm ${isOwn
-                                    ? 'bg-primary text-primary-foreground rounded-tr-none'
-                                    : 'bg-card text-card-foreground border rounded-tl-none'
+                                ? 'bg-primary text-primary-foreground rounded-tr-none'
+                                : 'bg-card text-card-foreground border rounded-tl-none'
                                 }`}>
                                 <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                                 <p className={`text-[9px] mt-1 text-right opacity-60`}>
@@ -174,7 +174,11 @@ export function ChatInterface({ chatId, currentUser, otherPerson, initialMessage
                         disabled={isSending}
                     />
                     <Button type="submit" size="icon" disabled={!newMessage.trim() || isSending} className="rounded-full shrink-0">
-                        <Send className="h-4 w-4" />
+                        {isSending ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                            <Send className="h-4 w-4" />
+                        )}
                     </Button>
                 </form>
             </footer>

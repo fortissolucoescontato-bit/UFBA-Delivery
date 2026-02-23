@@ -65,13 +65,19 @@ export default async function AdminSellersPage() {
                                 </div>
                                 <div className="flex gap-2 w-full md:w-auto">
                                     {!seller.is_approved ? (
-                                        <form action={approveSeller.bind(null, seller.id)} className="w-full md:w-auto">
+                                        <form action={async () => {
+                                            "use server"
+                                            await approveSeller(seller.id)
+                                        }} className="w-full md:w-auto">
                                             <Button type="submit" className="bg-green-600 hover:bg-green-700 w-full">
                                                 Aprovar Vendedor
                                             </Button>
                                         </form>
                                     ) : (
-                                        <form action={blockSeller.bind(null, seller.id)} className="w-full md:w-auto">
+                                        <form action={async () => {
+                                            "use server"
+                                            await blockSeller(seller.id)
+                                        }} className="w-full md:w-auto">
                                             <Button type="submit" variant="destructive" className="w-full">
                                                 Bloquear Acesso
                                             </Button>

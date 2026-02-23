@@ -7,9 +7,12 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { AppLogo } from '@/components/AppLogo'
+import { SubmitButton } from '@/components/SubmitButton'
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { CheckCircle2, AlertCircle } from "lucide-react"
 
 export default async function Login(props: {
-    searchParams: Promise<{ message: string }>
+    searchParams: Promise<{ message?: string, type?: string }>
 }) {
     const searchParams = await props.searchParams;
     const supabase = await createClient()
@@ -67,7 +70,7 @@ export default async function Login(props: {
                             <div className="flex items-center">
                                 <Label htmlFor="password">Senha</Label>
                                 <Link
-                                    href="#"
+                                    href="/auth/forgot-password"
                                     className="ml-auto inline-block text-sm underline"
                                 >
                                     Esqueceu a senha?
@@ -76,15 +79,29 @@ export default async function Login(props: {
                             <Input id="password" name="password" type="password" required />
                         </div>
 
-                        {searchParams?.message && (
-                            <p className="text-sm font-medium text-destructive text-center">
-                                {searchParams.message}
-                            </p>
+                        {searchParams?.message && searchParams?.type === 'success' && (
+                            <Alert className="mb-4 border-green-500 bg-green-50 text-green-900">
+                                <CheckCircle2 className="h-4 w-4 stroke-green-600" />
+                                <AlertTitle className="text-green-800 font-semibold">Sucesso!</AlertTitle>
+                                <AlertDescription>
+                                    {searchParams.message}
+                                </AlertDescription>
+                            </Alert>
                         )}
 
-                        <Button type="submit" className="w-full">
+                        {searchParams?.message && searchParams?.type !== 'success' && (
+                            <Alert variant="destructive" className="mb-4">
+                                <AlertCircle className="h-4 w-4" />
+                                <AlertTitle>Erro</AlertTitle>
+                                <AlertDescription>
+                                    {searchParams.message}
+                                </AlertDescription>
+                            </Alert>
+                        )}
+
+                        <SubmitButton className="w-full">
                             Entrar
-                        </Button>
+                        </SubmitButton>
 
                     </form>
                 </CardContent>

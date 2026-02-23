@@ -29,8 +29,15 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deploy on Netlify
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A aplicação está configurada para deploy automático e otimizado na **Netlify** utilizando o `netlify.toml` fornecido e o `@netlify/plugin-nextjs`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Variáveis de Ambiente Necessárias na Netlify
+
+Ao criar o novo site na interface da Netlify (ou via CLI), certifique-se de configurar as seguintes variáveis de ambiente no painel de **Environment Variables** antes do primeiro build de produção:
+
+- `NEXT_PUBLIC_SUPABASE_URL` (Sua URL REST do projeto Supabase)
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Sua Anon Key pública do Supabase)
+
+O deploy usará o comando `npm run build` nativamente e hospedará a pasta `.next`. Devido às salvaguardas implementadas (fallback injection), a plataforma será capaz de realizar a pré-renderização estática mesmo se as chaves atrasarem a injeção inicial do worker de SSR da nuvem.

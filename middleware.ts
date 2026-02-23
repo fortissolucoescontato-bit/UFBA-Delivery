@@ -62,39 +62,17 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL('/auth/login', request.url))
         }
 
-        // Check for seller role and approval
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('role, is_approved')
-            .eq('id', user.id)
-            .single()
-
-        if (profile?.role !== 'seller') {
-            return NextResponse.redirect(new URL('/', request.url))
-        }
-
-        if (!profile?.is_approved && !request.nextUrl.pathname.startsWith('/vendedor/pendente')) {
-            return NextResponse.redirect(new URL('/vendedor/pendente', request.url))
-        }
-    }
-
-    // Protection for /admin routes
-    if (request.nextUrl.pathname.startsWith('/admin')) {
-        if (!user) {
-            return NextResponse.redirect(new URL('/auth/login', request.url))
-        }
-
+        // Check for seller role
         const { data: profile } = await supabase
             .from('profiles')
             .select('role')
             .eq('id', user.id)
             .single()
 
-        if (profile?.role !== 'admin') {
+        if (profile?.role !== 'seller') {
             return NextResponse.redirect(new URL('/', request.url))
         }
     }
-
 
     return response
 }

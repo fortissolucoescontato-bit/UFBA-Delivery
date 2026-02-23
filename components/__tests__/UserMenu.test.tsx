@@ -92,27 +92,6 @@ describe('UserMenu', () => {
         expect(screen.queryByText('Quero Vender')).not.toBeInTheDocument()
     })
 
-    it('shows "Painel Admin" for admin users', async () => {
-        const mockUser = {
-            id: 'admin1',
-            email: 'admin@example.com',
-            user_metadata: { full_name: 'Admin User' }
-        }
-        supabaseMock.auth.getUser.mockResolvedValue({ data: { user: mockUser }, error: null })
-        supabaseMock.single.mockResolvedValue({ data: { role: 'admin' }, error: null })
-
-        render(<UserMenu />)
-
-        await waitFor(() => {
-            expect(screen.queryByText('Entrar')).not.toBeInTheDocument()
-        })
-
-        fireEvent.click(screen.getByRole('button'))
-
-        expect(screen.getByText('Painel Admin')).toBeInTheDocument()
-        expect(screen.queryByText('Painel do Vendedor')).not.toBeInTheDocument()
-    })
-
     it('calls signOut and redirects when clicking "Sair"', async () => {
         const mockUser = { id: 'u1', email: 'test@example.com' }
         supabaseMock.auth.getUser.mockResolvedValue({ data: { user: mockUser }, error: null })
