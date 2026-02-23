@@ -4,6 +4,8 @@ import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { CartProvider } from "@/context/CartContext";
 import { Toaster } from "@/components/ui/sonner";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 
 const jakartaSans = Plus_Jakarta_Sans({
   variable: "--font-geist-sans", // keeping the variable name to perfectly map to globals.css theme
@@ -37,7 +39,9 @@ export default function RootLayout({
           {children}
           <Footer />
           <Toaster />
+          <SpeedInsights />
         </CartProvider>
+
       </body>
     </html>
   );
