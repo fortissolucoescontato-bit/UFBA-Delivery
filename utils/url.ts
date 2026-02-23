@@ -9,8 +9,10 @@ export function getBaseUrl() {
 
     // Default for this project as requested by the user
     if (process.env.NODE_ENV === 'production') {
-        return 'https://ufba-delivery.netlify.app'
+        // Fallback to Vercel domain if provided, otherwise placeholder
+        return process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://ufba-delivery.vercel.app'
     }
+
 
     return 'http://localhost:3000'
 }

@@ -13,6 +13,15 @@ export default async function ResetPassword(props: {
     searchParams: Promise<{ message?: string, type?: string }>
 }) {
     const searchParams = await props.searchParams;
+    const supabase = await createClient()
+
+    // Crucial: Verify that we actually have a session (valid code exchange)
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+        return redirect('/auth/login?type=error&message=Sessão expirada ou inválida. Solicite um novo link de recuperação.')
+    }
+
 
     const updatePassword = async (formData: FormData) => {
         'use server'
