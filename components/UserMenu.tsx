@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { User, LogOut, Store, ShoppingBag, MessageSquare } from "lucide-react"
+import { User, LogOut, Store, ShoppingBag, MessageSquare, Shield } from "lucide-react"
 import Link from "next/link"
 import { createClient } from "@/utils/supabase/client"
 import { useRouter } from "next/navigation"
@@ -77,6 +77,15 @@ export function UserMenu() {
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-border/50 my-2" />
+
+                {role === 'admin' && (
+                    <DropdownMenuItem asChild className="cursor-pointer rounded-xl focus:bg-primary/10 hover:text-primary transition-colors">
+                        <Link href="/admin/vendedores">
+                            <Shield className="mr-2 h-4 w-4" />
+                            <span className="font-medium">Painel Admin</span>
+                        </Link>
+                    </DropdownMenuItem>
+                )}
 
                 {role === 'seller' && (
                     <DropdownMenuItem asChild className="cursor-pointer rounded-xl focus:bg-primary/10 hover:text-primary transition-colors">
