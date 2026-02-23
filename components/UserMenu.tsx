@@ -106,12 +106,22 @@ export function UserMenu() {
                     </Link>
                 </DropdownMenuItem>
 
+                {role === 'admin' && (
+                    <DropdownMenuItem asChild className="cursor-pointer rounded-xl focus:bg-primary/10 hover:text-primary transition-colors">
+                        <Link href="/admin/vendedores">
+                            <Store className="mr-2 h-4 w-4" />
+                            <span className="font-medium text-orange-600">Painel Admin</span>
+                        </Link>
+                    </DropdownMenuItem>
+                )}
+
                 <DropdownMenuItem asChild className="cursor-pointer rounded-xl focus:bg-primary/10 hover:text-primary transition-colors">
                     <Link href="/carrinho">
                         <ShoppingBag className="mr-2 h-4 w-4" />
                         <span className="font-medium">Meus Pedidos</span>
                     </Link>
                 </DropdownMenuItem>
+
 
                 <DropdownMenuSeparator className="bg-border/50 my-2" />
                 <DropdownMenuItem
