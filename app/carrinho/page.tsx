@@ -12,6 +12,8 @@ import { initiateChatCheckout } from "./actions"
 import { useState } from "react"
 import { toast } from "sonner"
 
+import { config } from "@/lib/config"
+
 export default function CartPage() {
     const { items, removeFromCart } = useCart()
     const [isCreatingChat, setIsCreatingChat] = useState<string | null>(null)
@@ -57,10 +59,11 @@ export default function CartPage() {
                 <div className="flex-1 space-y-8">
                     {Object.entries(groupedItems).map(([sellerId, group]) => {
                         const whatsappMessage = encodeURIComponent(
-                            `Olá ${group.sellerName}! Vi no App da UFBA.\nQuero:\n` +
+                            `Olá ${group.sellerName}! Vi no App do ${config.siteName}.\nQuero:\n` +
                             group.items.map(i => `- ${i.quantity}x ${i.name}`).join('\n') +
                             `\n\nTotal: R$ ${group.subtotal.toFixed(2)}\n\nEntrega a combinar?`
                         );
+
 
                         return (
                             <Card key={sellerId} className="border-l-4 border-l-primary">

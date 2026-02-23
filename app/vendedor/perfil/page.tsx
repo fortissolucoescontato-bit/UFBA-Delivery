@@ -10,6 +10,8 @@ import { updateProfile } from '../actions'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { SubmitButton } from '@/components/SubmitButton'
 
+import { config } from '@/lib/config'
+
 export default async function ProfilePage(props: {
     searchParams: Promise<{ success?: string, error?: string }>
 }) {
@@ -107,7 +109,7 @@ export default async function ProfilePage(props: {
                                 defaultValue={profile?.store_description || ''}
                                 rows={3}
                                 className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                                placeholder="ex: Os melhores doces fit do PAF 1 🌿!"
+                                placeholder={`A melhor loja de ${config.siteName}!`}
                             ></textarea>
                             <p className="text-xs text-muted-foreground">Aparecerá abaixo do seu nome na vitrine.</p>
                         </div>
@@ -121,15 +123,13 @@ export default async function ProfilePage(props: {
                                 className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                             >
                                 <option value="">Não definido</option>
-                                <option value="PAF 1">PAF 1</option>
-                                <option value="PAF 2">PAF 2</option>
-                                <option value="Biblioteca">Biblioteca</option>
-                                <option value="Da Ondina">Da Ondina</option>
-                                <option value="Praça Politecnica">Praça Politecnica</option>
-                                <option value="Direito/Biologia">Direito/Biologia</option>
+                                {config.defaultLocations.map(loc => (
+                                    <option key={loc} value={loc}>{loc}</option>
+                                ))}
                             </select>
                             <p className="text-xs text-muted-foreground">Onde você está vendendo agora?</p>
                         </div>
+
 
                         <div className="space-y-2">
                             <Label htmlFor="whatsapp">WhatsApp (com DDD)</Label>

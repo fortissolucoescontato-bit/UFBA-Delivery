@@ -3,9 +3,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { AppLogo } from "@/components/AppLogo"
 import { MessageCircle, Clock, AlertCircle } from "lucide-react"
 import Link from "next/link"
+import { config, getAdminWhatsAppLink } from "@/lib/config"
 
 export default function PendingApprovalPage() {
-    const adminWhatsApp = "https://wa.me/5571996381954?text=Olá,%20acabei%20de%20me%20cadastrar%20como%20vendedor%20no%20UFBA%20Delivery%20e%20gostaria%20de%20solicitar%20minha%20ativação."
+    const adminWhatsApp = getAdminWhatsAppLink("Olá, acabei de me cadastrar como vendedor e gostaria de solicitar minha ativação.")
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-muted/40 p-4">
@@ -53,9 +54,10 @@ export default function PendingApprovalPage() {
             </Card>
 
             <p className="mt-8 text-xs text-muted-foreground text-center max-w-xs">
-                Administrador: (71) 99638-1954<br />
-                UFBA Delivery - Campus Digital
+                Administrador: {config.adminWhatsApp}<br />
+                {config.siteName} - {config.siteSubtitle}
             </p>
         </div>
     )
 }
+

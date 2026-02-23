@@ -1,4 +1,5 @@
 import { UtensilsCrossed, Flame } from "lucide-react"
+import { config } from "@/lib/config"
 
 export function AppLogo({ className, hideSubtext = false }: { className?: string, hideSubtext?: boolean }) {
     return (
@@ -9,14 +10,15 @@ export function AppLogo({ className, hideSubtext = false }: { className?: string
             </div>
             <div className="flex flex-col justify-center">
                 <span className="font-extrabold text-xl tracking-tight leading-none text-foreground">
-                    UFBA Delivery
+                    {config.siteName}
                 </span>
                 {!hideSubtext && (
                     <span className="text-[9px] font-bold text-primary uppercase tracking-[0.2em] mt-1">
-                        Projeto Independente
+                        {config.siteSubtitle}
                     </span>
                 )}
             </div>
         </div>
     )
 }
+

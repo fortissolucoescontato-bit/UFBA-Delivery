@@ -15,10 +15,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import { config } from "@/lib/config";
+
 export const metadata: Metadata = {
-  title: "UFBA Delivery - O seu lanche no campus",
-  description: "Peça lanches, refeições e muito mais dos vendedores no campus da UFBA. Prático, rápido e feito por estudantes.",
+  title: `${config.siteName} - ${config.siteSubtitle}`,
+  description: config.siteDescription,
 };
+
 
 export default function RootLayout({
   children,

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ExternalLink, Share2, Check, Store } from "lucide-react"
 import Link from "next/link"
+import { config } from '@/lib/config'
 
 export function StorefrontActionsCard({ sellerId, avatarUrl }: { sellerId: string; avatarUrl?: string | null }) {
     const [copied, setCopied] = useState(false)
@@ -17,13 +18,11 @@ export function StorefrontActionsCard({ sellerId, avatarUrl }: { sellerId: strin
             try {
                 await navigator.share({
                     title: 'Minha Loja',
-                    text: 'Confira os meus produtos no UFBA Delivery!',
+                    text: `Confira os meus produtos no ${config.siteName}!`,
                     url: url,
                 })
             } catch (error) {
                 console.error('Error sharing:', error)
-                // Fallback to clipboard if share gets cancelled or errors out for some reason 
-                // but user didn't intentionally cancel
             }
         } else {
             // Fallback: Copy to clipboard

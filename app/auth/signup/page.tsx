@@ -13,6 +13,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { CheckCircle2, AlertCircle } from "lucide-react"
 import { SubmitButton } from '@/components/SubmitButton'
 
+import { config } from '@/lib/config'
+
 export default async function Signup(props: {
     searchParams: Promise<{ message?: string, type?: string }>
 }) {
@@ -68,9 +70,10 @@ export default async function Signup(props: {
                 <CardHeader>
                     <CardTitle className="text-2xl">Criar Conta</CardTitle>
                     <CardDescription>
-                        Comece a usar o UFBA Delivery hoje mesmo.
+                        Comece a usar o {config.siteName} hoje mesmo.
                     </CardDescription>
                 </CardHeader>
+
                 <CardContent>
 
                     {searchParams?.type === 'success' ? (
