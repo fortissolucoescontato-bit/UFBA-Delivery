@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { CartProvider } from "@/context/CartContext";
 import { Toaster } from "@/components/ui/sonner";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 import MicrosoftClarity from "@/components/MicrosoftClarity";
 
 
@@ -42,6 +43,7 @@ export default function RootLayout({
           <Footer />
           <Toaster />
           <SpeedInsights />
+          <Analytics />
           <MicrosoftClarity projectId={config.clarityProjectId} />
         </CartProvider>
 
