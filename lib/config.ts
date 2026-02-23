@@ -18,7 +18,11 @@ export const config = {
 
     // Feature Flags (Optional expansion)
     enableRegistration: process.env.NEXT_PUBLIC_ENABLE_REGISTRATION !== "false",
+
+    // Analytics
+    clarityProjectId: process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || "",
 }
+
 
 /**
  * Helper to generate WhatsApp links

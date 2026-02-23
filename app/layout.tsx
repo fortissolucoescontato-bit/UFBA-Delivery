@@ -5,6 +5,8 @@ import { Footer } from "@/components/Footer";
 import { CartProvider } from "@/context/CartContext";
 import { Toaster } from "@/components/ui/sonner";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import MicrosoftClarity from "@/components/MicrosoftClarity";
+
 
 
 const jakartaSans = Plus_Jakarta_Sans({
@@ -40,7 +42,9 @@ export default function RootLayout({
           <Footer />
           <Toaster />
           <SpeedInsights />
+          <MicrosoftClarity projectId={config.clarityProjectId} />
         </CartProvider>
+
 
       </body>
     </html>
