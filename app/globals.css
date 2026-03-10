@@ -1,0 +1,143 @@
+@import "tailwindcss";
+@import "shadcn/tailwind.css";
+
+@theme inline {
+  /* Variáveis de cor mapeadas para o Tailwind v4 gerar as classes utilitárias */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --font-sans: var(--font-sans);
+
+  /* Sistema de Cores Premium (Indigo & Deep Slate) */
+  --color-brand-primary: #635BFF;
+  --color-brand-secondary: #0A2540;
+  --color-brand-accent: #00D4FF;
+
+  /* Radii Customizados */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 12px);
+  --radius-3xl: calc(var(--radius) + 20px);
+  --radius-4xl: calc(var(--radius) + 32px);
+}
+
+:root {
+  --radius: 1rem;
+  --background: #F8FAFC;
+  --foreground: #0A2540;
+
+  --card: #FFFFFF;
+  --card-foreground: #0A2540;
+
+  --primary: #635BFF;
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #F1F5F9;
+  --secondary-foreground: #334155;
+
+  --muted: #F8FAFC;
+  --muted-foreground: #64748B;
+
+  --accent: #635BFF;
+  --accent-foreground: #FFFFFF;
+
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #635BFF;
+}
+
+.dark {
+  --background: #020617;
+  --foreground: #F8FAFC;
+  --card: #0F172A;
+  --card-foreground: #F8FAFC;
+  --primary: #818CF8;
+  --secondary: #1E293B;
+  --muted: #0F172A;
+  --border: #1E293B;
+  --ring: #818CF8;
+}
+
+@layer utilities {
+
+  /* 💎 Glassmorphism Pro Customizado */
+  .glass-premium {
+    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/50 dark:border-slate-800/30;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  }
+
+  /* 💎 Sombras de Profundidade Apple-esque */
+  .shadow-soft {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04), 0 4px 10px -5px rgba(0, 0, 0, 0.02);
+  }
+
+  .shadow-lift {
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.1), 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  }
+
+  /* 💎 Efeito de Hover Lift (Interação Orgânica) */
+  .hover-lift {
+    @apply transition-all duration-500;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hover-lift:hover {
+    @apply -translate-y-2;
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.1), 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  }
+
+  /* 💎 Animações de Entrada de Fluxo */
+  .animate-reveal {
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@layer base {
+  * {
+    /* border-border requer --color-border mapeado no @theme (acima) */
+    border-color: var(--border);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv11";
+  }
+
+  /* Cabeçalhos Modernos e Comprimidos */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply tracking-tight font-black;
+  }
+}
